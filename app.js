@@ -18,7 +18,15 @@ app.use(express.static("public"));
 main().catch(err => console.log(err));
 
 async function main() {
-  await mongoose.connect('mongodb+srv://davidmitu15:davidmitu15@cluster0.xam5xsx.mongodb.net/?retryWrites=true&w=majority');
+  try {
+    await mongoose.connect(process.env.MONGO_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    console.log('MongoDB Connected');
+  } catch (err) {
+    console.error(err);
+  }
 }
 
 const itemsSchema = {
